@@ -9,6 +9,9 @@ function Weather() {
   const [loading, setLoading] = useState(false);
 
   const fetchWeather = async () => {
+
+    if(city === "") return;
+
     try {
       setLoading(true);
       const res = await axios.get(API_URL, {
@@ -19,9 +22,11 @@ function Weather() {
         },
       });
       setWeatherData(res.data);
-    } catch (error) {
+    } 
+    catch (error) {
       setWeatherData(null);
-    } finally {
+    } 
+    finally {
       setLoading(false);
       setCity("");
     }
@@ -36,6 +41,7 @@ function Weather() {
       <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-blue-400">🌦️ Weather Details</h2>
 
       <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+        
         <input
           type="text"
           value={city}
@@ -43,18 +49,20 @@ function Weather() {
           placeholder="Enter city"
           className="px-4 py-2 rounded-full text-gray-800 font-semibold outline-none w-full sm:w-2/3"
         />
+
         <button
           onClick={fetchWeather}
           className="bg-blue-500 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-full transition w-full sm:w-auto"
         >
-          Get Weather
+          <i className='bx bx-search'></i>
+          
         </button>
       </div>
 
       {
-        loading ? (
-          <p className="animate-pulse text-lg font-medium">Loading...</p>
-        ) : weatherData ? (
+        loading ? ( <p className="animate-pulse text-lg font-medium">Loading...</p>) : 
+        weatherData ? 
+        (
           <div className="space-y-3 sm:space-y-4 animate-fade-in">
             <h2 className="text-2xl sm:text-3xl font-bold">{weatherData.name}</h2>
             <p className="text-4xl sm:text-5xl font-bold">🌡️ {weatherData.main.temp}°C</p>
@@ -65,9 +73,8 @@ function Weather() {
               <div>💨 Wind: {weatherData.wind.speed} km/h</div>
             </div>
           </div>
-        ) : (
-          <p className="text-red-300 text-lg mt-4 font-semibold animate-bounce">❌ City not found</p>
-        )
+        ) : 
+        ( <p className="text-red-300 text-lg mt-4 font-semibold animate-bounce">❌ City not found</p> )
       }
     </div>
   );
